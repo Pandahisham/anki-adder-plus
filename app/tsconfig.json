@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "system",
+    "target": "es5",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "outDir": "tmp/js"
+  },
+  "files": [
+    "typings/index.d.ts",
+    "src/app/ankiweb.ts",
+    "src/app/forms.ts",
+    "src/app/main.ts",
+    "src/app/marking.ts",
+    "src/app/options.ts",
+    "src/app/eventPage.ts"
+  ]
+}
