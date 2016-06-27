@@ -1,7 +1,7 @@
 {
    "background": {
       "persistent": false,
-      "scripts": [ "tmp/js/eventPage.js" ]
+      "scripts": [ "dist/js/eventPage.js" ]
    },
    "browser_action": {
       "default_icon": "images/32.png",
