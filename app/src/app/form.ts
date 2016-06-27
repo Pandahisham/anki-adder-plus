@@ -1,8 +1,5 @@
 'use strict';
 
-import AnkiWeb from 'ankiweb.ts';
-import Marking from 'marking.ts';
-
 //Global variables
 var MAXCOMBOS = 32; //Length of history of combos
 var comboLevel = 0;
@@ -123,9 +120,9 @@ function initPopup() {
         $(".loadinggifsmall").delay(3000).fadeIn(1000); //If the connection to AnkiWeb has not been initialized after 3 secs, show small loading gif
         if ($(this).is(".addcardbuttondown")) {
             //Cancel the adding of a card
-            if (AnkiWeb.currentXhr && AnkiWeb.currentXhr.readyState != 4) {
-                AnkiWeb.currentXhr.abort();
-                AnkiWeb.currentXhr = null;
+            if (currentXhr && currentXhr.readyState != 4) {
+                currentXhr.abort();
+                currentXhr = null;
                 $(".loadinggif").stop(true).css("display", "none");
                 $(".buttonready").stop(true).css({"display": "block", "opacity": "1"});
                 $(this).addClass("addcardbutton").removeClass("addcardbuttondown");
@@ -471,8 +468,8 @@ function generateFields() {
 
     for (var n = 1; localStorage["model-fieldName-" + n + ":" + id]; n++) {
         fieldsElement.append($(document.createElement("div")).addClass("fname")
-                .attr('title', chrome.i18n.getMessage("tooltipShortcuts"))
-                .append(document.createTextNode(localStorage["model-fieldName-" + n + ":" + id]))
+            .attr('title', chrome.i18n.getMessage("tooltipShortcuts"))
+            .append(document.createTextNode(localStorage["model-fieldName-" + n + ":" + id]))
         );
         if (localStorage["model-clozeFieldNum:" + id] == n) { //Clozefield
             clozeN = n; //Save field number
@@ -496,9 +493,9 @@ function appendClozefield() {
     fieldsElement.append($(document.createElement("textarea")).attr("id", "clozearea").val(htmlToClozeText(localStorage["field" + clozeN])));
 
     if (clozeFieldIsEmpty()) { //If not empty
-        Marking.clozeArea();
+        clozeArea();
     } else {
-        Marking.clozeField();
+        clozeField();
     }
 }
 
@@ -684,7 +681,7 @@ function loadSelection() {
     }
     if (field == clozeN) {
         if ($("#clozefield").length)
-            Marking.clozeArea();
+            clozeArea();
         var id = document.getElementById("clozearea");
         if (!id)
             return;
@@ -761,7 +758,7 @@ function fillModelList() {
                 .append($(document.createElement("option"))
                     .attr({ value: localStorage["model" + n] })
                     .append(document.createTextNode(localStorage["model-name:" + localStorage["model" + n]]))
-            );
+                );
         }
     }
     if (localStorage["currentModel"]) {
@@ -796,7 +793,7 @@ function fillDeckList() {
                     .attr({ value: localStorage["deck" + n] })
                     .addClass(className)
                     .append(white).append(document.createTextNode(endName))
-            );
+                );
         }
     }
 
@@ -809,7 +806,7 @@ function fillDeckList() {
             })
             .css("display", "none")
             .addClass(className)
-    );
+        );
 
     if (localStorage["currentDeck"]) {
         $deckSelect.val(localStorage["currentDeck"]);
@@ -908,7 +905,7 @@ function clearFields() {
         if (!localStorage["model-fieldSticky-" + n + ":" + curMod]) {
             if (clozeN == n) {
                 $("#clozefield").empty();
-                Marking.clozeArea();
+                clozeArea();
             } else {
                 $(".field[data-fieldnum=" + n + "]").empty();
             }
@@ -1057,14 +1054,14 @@ function showMessage(type, message) {
             chrome.tabs.create({url: "options.html"});
             window.close();
         }).append($(document.createElement("div"))
-                .addClass("messagelink")
-                .html(content)
-                .on("mouseover", function () {
-                    $(".message").css("background-color", "#f7f7f7");
-                })
-                .on("mouseout", function () {
-                    $(".message").css("background-color", "#ededed");
-                })
+            .addClass("messagelink")
+            .html(content)
+            .on("mouseover", function () {
+                $(".message").css("background-color", "#f7f7f7");
+            })
+            .on("mouseout", function () {
+                $(".message").css("background-color", "#ededed");
+            })
         );
     }
 }

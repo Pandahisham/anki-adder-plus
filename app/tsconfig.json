@@ -9,7 +9,7 @@
   "files": [
     "typings/index.d.ts",
     "src/app/ankiweb.ts",
-    "src/app/forms.ts",
+    "src/app/form.ts",
     "src/app/main.ts",
     "src/app/marking.ts",
     "src/app/options.ts",

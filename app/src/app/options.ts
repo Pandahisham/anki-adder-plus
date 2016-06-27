@@ -1,7 +1,5 @@
 'use strict';
 
-import AnkiWeb from 'ankiweb.ts';
-
 $(document).ready(function () {
     loadValues();
     loadShortcuts();
@@ -29,8 +27,8 @@ $(document).ready(function () {
         localStorage['option-password'] = $('#option-password-field').val();
 
         //Refresh decks and models
-        if (AnkiWeb.currentXhr && AnkiWeb.currentXhr.readyState != 4) {
-            AnkiWeb.currentXhr.abort();
+        if (currentXhr && currentXhr.readyState != 4) {
+            currentXhr.abort();
         }
         console.log("Connecting to Anki login");
         connectToAnki(function (updateCurrent, updateModelList, updateDeckList) {
@@ -131,8 +129,8 @@ function optionsListModels() {
                     .append(inputElem)
                     .append($(document.createElement("span"))
                         .append(document.createTextNode(localStorage["model-name:" + localStorage["model" + n]]))
+                    )
                 )
-            )
         );
 
         if (localStorage["excludedModel:" + localStorage["model" + n]])
@@ -194,7 +192,7 @@ function optionsListDecks() {
                             detailedDeckNames();
                         }))
                     .append($(document.createElement("span")).append(document.createTextNode(endName))))
-        );
+            );
         if (localStorage["excludedDeck:" + localStorage["deck" + n]])
             $("#decklist input").last().attr("checked", true);
         else
