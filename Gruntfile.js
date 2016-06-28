@@ -1,12 +1,5 @@
-//TODO: fix all paths, this file is for example only
-
 module.exports = function(grunt) {
     "use strict";
-
-    var contentSrc = ["src/content/*.ts"];
-    var bgSrc = ["src/background/*.ts"];
-    var popupSrc = ["src/popup/*.ts"];
-    var optionSrc = ["src/options/*.ts"];
 
     grunt.initConfig({
         ts: {
@@ -14,21 +7,9 @@ module.exports = function(grunt) {
                 sourceMap: false,
                 removeComments: true
             },
-            background: {
-                src: bgSrc,
-                out: "build/background/background.js"
-            },
-            popup: {
-                src: popupSrc,
-                out: "build/popup/popup.js"
-            },
-            option: {
-                src: optionSrc,
-                out: "build/options/options.js"
-            },
-            content: {
-                src: contentSrc,
-                out: "build/content/content.js"
+            default: {
+                src: ["app/src/app/*.ts"],
+                outDir: "app/dist/js"
             }
         },
         copy: {
@@ -36,13 +17,18 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        src: ["manifest.json", "content/*.css", "content/*.js", "pages/*", "popup/popup.html", "options/options.html"],
-                        cwd: "src/",
+                        src: ["manifest.json",
+                            "_locales/**",
+                            "css/*.css",
+                            "dist/js/*.js",
+                            "popup.html",
+                            "options.html"],
+                        cwd: "app/",
                         dest: "build/"
                     },
                     {
                         expand: true,
-                        src: "images/*",
+                        src: "app/images/*",
                         dest: "build/"
                     }
                 ]
@@ -51,7 +37,7 @@ module.exports = function(grunt) {
         compress: {
             main: {
                 options: {
-                    archive: 'regex-search.zip',
+                    archive: 'anki-adder-plus.zip',
                     mode: 'zip'
                 },
                 files: [
