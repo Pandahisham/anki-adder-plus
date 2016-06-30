@@ -1,11 +1,15 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     "use strict";
+
+    //TODO: clean dirs & zip before build
 
     grunt.initConfig({
         ts: {
             options: {
                 sourceMap: false,
-                removeComments: true
+                removeComments: true,
+                fast: 'never',
+                failOnTypeErrors: false
             },
             default: {
                 src: ["app/src/app/*.ts"],
@@ -20,15 +24,12 @@ module.exports = function(grunt) {
                         src: ["manifest.json",
                             "_locales/**",
                             "css/*.css",
+                            "js/*.js",
+                            "images/**",
                             "dist/js/*.js",
                             "popup.html",
                             "options.html"],
                         cwd: "app/",
-                        dest: "build/"
-                    },
-                    {
-                        expand: true,
-                        src: "app/images/*",
                         dest: "build/"
                     }
                 ]
@@ -41,7 +42,7 @@ module.exports = function(grunt) {
                     mode: 'zip'
                 },
                 files: [
-                    { expand: true, cwd: 'build/', src: '**' }
+                    {expand: true, cwd: 'build/', src: '**'}
                 ]
             }
         }
@@ -50,6 +51,22 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-ts");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.registerTask("default", ["ts", "copy"]);
-    grunt.registerTask("release", ["ts", "copy", "compress"]);
+
+    grunt.registerTask("default", [
+        "ts",
+        "copy"
+    ]);
+
+    grunt.registerTask("release", [
+        "ts",
+        "copy",
+        "compress"
+    ]);
+
+    grunt.registerTask('build', [
+        //    'karma',
+        'ts',
+        'copy',
+        'compress'
+    ]);
 };
